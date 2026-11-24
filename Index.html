@@ -1,0 +1,340 @@
+
+Postada por VITTÓRYA SANTOS CORVELO
+VITTÓRYA SANTOS CORVELO
+Criado em: 07:5507:55
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Senhas Seguras | Alura Start</title>
+<link rel="preconnect" href="https://googleapis.com"&gt;
+<link rel="preconnect" href="https://gstatic.com&quot; crossorigin>
+<link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap&quot; rel="stylesheet">
+
+<style>
+:root {
+--bg-dark: #060d1f;
+--bg-card: #0f1d3a;
+--bg-input: #16284c;
+--primary-blue: #2563eb;
+--primary-hover: #1d4ed8;
+--accent-cyan: #38bdf8;
+--text-main: #f8fafc;
+--text-muted: #94a3b8;
+--border-color: #1e3a8a;
+--weak: #ef4444;
+--medium: #f59e0b;
+--strong: #10b981;
+}
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Inter', sans-serif;
+background: radial-gradient(circle at top, #0f2557 0%, var(--bg-dark) 75%);
+color: var(--text-main);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+}
+
+.container {
+background-color: var(--bg-card);
+border: 1px solid var(--border-color);
+border-radius: 16px;
+padding: 32px;
+width: 100%;
+max-width: 520px;
+box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(37, 99, 235, 0.15);
+}
+
+header {
+text-align: center;
+margin-bottom: 28px;
+}
+
+.badge {
+display: inline-block;
+background-color: rgba(56, 189, 248, 0.15);
+color: var(--accent-cyan);
+font-size: 0.75rem;
+font-weight: 600;
+padding: 4px 12px;
+border-radius: 999px;
+margin-bottom: 10px;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+}
+
+h1 {
+font-size: 1.75rem;
+font-weight: 700;
+margin-bottom: 6px;
+color: var(--text-main);
+}
+
+header p {
+color: var(--text-muted);
+font-size: 0.9rem;
+}
+
+.password-display {
+display: flex;
+align-items: center;
+background-color: var(--bg-input);
+border: 1px solid var(--border-color);
+border-radius: 10px;
+padding: 12px 16px;
+margin-bottom: 24px;
+gap: 10px;
+}
+
+#campo-senha {
+width: 100%;
+background: transparent;
+border: none;
+color: var(--accent-cyan);
+font-family: 'JetBrains Mono', monospace;
+font-size: 1.25rem;
+font-weight: 700;
+outline: none;
+letter-spacing: 1px;
+}
+
+.btn-icon {
+background-color: var(--primary-blue);
+color: white;
+border: none;
+border-radius: 8px;
+padding: 8px 14px;
+font-size: 0.85rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.2s ease;
+white-space: nowrap;
+}
+
+.btn-icon:hover {
+background-color: var(--primary-hover);
+transform: translateY(-1px);
+}
+
+.section-title {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--text-muted);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+margin-bottom: 14px;
+}
+
+.control-group {
+background-color: var(--bg-input);
+border-radius: 10px;
+padding: 16px;
+margin-bottom: 20px;
+}
+
+.length-control {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.length-buttons {
+display: flex;
+align-items: center;
+gap: 14px;
+}
+
+.btn-adjust {
+width: 34px;
+height: 34px;
+border-radius: 8px;
+border: 1px solid var(--border-color);
+background-color: var(--bg-card);
+color: var(--text-main);
+font-size: 1.2rem;
+font-weight: 700;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.btn-adjust:hover {
+background-color: var(--primary-blue);
+border-color: var(--primary-blue);
+}
+
+#numero-caracteres {
+font-family: 'JetBrains Mono', monospace;
+font-size: 1.2rem;
+font-weight: 700;
+min-width: 24px;
+text-align: center;
+}
+
+.checkbox-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
+
+.checkbox-item {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 0.9rem;
+cursor: pointer;
+user-select: none;
+}
+
+.checkbox-item input[type="checkbox"] {
+width: 18px;
+height: 18px;
+accent-color: var(--primary-blue);
+cursor: pointer;
+}
+
+.strength-box {
+background-color: var(--bg-input);
+border-radius: 10px;
+padding: 16px;
+margin-bottom: 20px;
+}
+
+.strength-header {
+display: flex;
+justify-content: space-between;
+font-size: 0.9rem;
+margin-bottom: 10px;
+}
+
+#texto-forca {
+font-weight: 700;
+}
+
+.bar-container {
+width: 100%;
+height: 10px;
+background-color: var(--bg-dark);
+border-radius: 999px;
+overflow: hidden;
+margin-bottom: 10px;
+}
+
+.bar-fill {
+height: 100%;
+width: 50%;
+border-radius: 999px;
+transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.entropy-info {
+font-size: 0.8rem;
+color: var(--text-muted);
+text-align: right;
+}
+
+.btn-generate {
+width: 100%;
+background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+color: white;
+border: none;
+border-radius: 10px;
+padding: 14px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.2s ease;
+box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+.btn-generate:hover {
+filter: brightness(1.1);
+transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+.container {
+padding: 22px;
+}
+.checkbox-grid {
+grid-template-columns: 1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<main class="container">
+<header>
+<span class="badge">Segurança Digital</span>
+<h1>Gerador de Senhas</h1>
+<p>Gere senhas fortes e calcule a entropia em tempo real</p>
+</header>
+
+<div class="password-display">
+<input type="text" id="campo-senha" readonly aria-label="Senha gerada">
+<button class="btn-icon" id="btn-copiar" title="Copiar senha">Copiar</button>
+</div>
+
+<h2 class="section-title">Personalize sua senha</h2>
+
+<div class="control-group">
+<div class="length-control">
+<span>Número de caracteres</span>
+<div class="length-buttons">
+<button class="btn-adjust" id="btn-diminuir" aria-label="Diminuir caracteres">-</button>
+<span id="numero-caracteres">12</span>
+<button class="btn-adjust" id="btn-aumentar" aria-label="Aumentar caracteres">+</button>
+</div>
+</div>
+</div>
+
+<div class="control-group">
+<div class="checkbox-grid">
+<label class="checkbox-item">
+<input type="checkbox" id="maiusculas" checked>
+Letras maiúsculas
+</label>
+<label class="checkbox-item">
+<input type="checkbox" id="minusculas" checked>
+Letras minúsculas
+</label>
+<label class="checkbox-item">
+<input type="checkbox" id="numeros" checked>
+Números
+</label>
+<label class="checkbox-item">
+<input type="checkbox" id="simbolos" checked>
+Símbolos (!@#$...)
+</label>
+</div>
+</div>
+
+<div class="strength-box">
+<div class="strength-header">
+<span>Força da senha</span>
+<span id="texto-forca">Forte</span>
+</div>
+<div class="bar-container">
+<div class="bar-fill" id="barra-forca"></div>
+</div>
+<p class="entropy-info" id="valor-entropia">Um computador levaria centenas de anos para quebrar</p>
+</div>
+
+<button class="btn-generate" id="btn-gerar">Gerar Nova Senha</button>
+</main>
+
+<script>
+const campoSenha = document.getElementById('campo-senha');
+const numeroCaracteresTexto = document.getElementById('numero-caracteres');
+const btnDiminuir = document.getElementById('btn-diminuir');
+const btnAumentar = document.getElementById('btn-aumentar');
